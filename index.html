@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#fff4f7">
+<title>A Little Something For You ❤️</title>
+<style>
+:root{--pink:#e96b8b;--rose:#c94f73;--ink:#38252c;--soft:#fff4f7;--cream:#fffaf5}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:linear-gradient(135deg,#fff7f8,#fffaf4);color:var(--ink);font-family:Georgia,"Times New Roman",serif;overflow-x:hidden}
+button{font:inherit}
+.page{min-height:100vh;display:none;align-items:center;justify-content:center;padding:28px 18px;position:relative}
+.page.active{display:flex;animation:fade .7s ease}
+.card{width:min(900px,100%);text-align:center}
+.eyebrow{font:14px Arial,sans-serif;letter-spacing:3px;text-transform:uppercase;color:var(--rose)}
+h1{font-size:clamp(40px,9vw,82px);line-height:1.02;margin:16px 0}
+h2{font-size:clamp(32px,7vw,55px);margin:12px 0}
+p{font-size:19px;line-height:1.7}
+.subtitle{max-width:650px;margin:0 auto 28px}
+.btn{border:0;border-radius:999px;background:var(--pink);color:white;padding:15px 25px;cursor:pointer;box-shadow:0 10px 25px #c94f7330;transition:.2s;display:inline-block}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 30px #c94f7340}
+.ghost{background:white;color:var(--rose);border:1px solid #f0c4d0}
+.heart{font-size:70px;animation:pulse 1.8s infinite}
+.dots{display:flex;gap:7px;justify-content:center;margin-top:25px}
+.dot{width:7px;height:7px;border-radius:50%;background:#e9c6cf}.dot.on{background:var(--rose)}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:28px auto;max-width:760px}
+/* .photo{aspect-ratio:1/1;border-radius:20px;overflow:hidden;background:#f6dfe5;position:relative;box-shadow:0 8px 22px #8b53621a}
+.photo img{width:100%;height:100%;object-fit:cover}
+.photo .placeholder{height:100%;display:flex;align-items:center;justify-content:center;color:#8d6570;font:14px Arial,sans-serif;padding:10px} */
+
+.photo{
+    width:100%;
+    min-height:350px;
+    border-radius:20px;
+    overflow:hidden;
+    background:#f6dfe5;
+    position:relative;
+    box-shadow:0 8px 22px #8b53621a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+.photo img{
+    width:100%;
+    height:auto;
+    max-height:600px;
+    object-fit:contain;
+    display:block;
+}
+
+.photo .placeholder{
+    min-height:350px;
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#8d6570;
+    font:14px Arial,sans-serif;
+    padding:10px;
+}
+
+.caption{font:15px Arial,sans-serif;margin-top:7px;color:#795965}
+.quiz{max-width:650px;margin:25px auto;text-align:left}
+.question{font-size:24px;text-align:center;margin-bottom:18px}
+.answers{display:grid;gap:10px}
+.answer{border:1px solid #efc7d1;background:white;border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left}
+.answer:hover{background:#fff1f5}
+.answer.correct{background:#e8f7ed;border-color:#92cba4}
+.answer.wrong{background:#fff0f0;border-color:#e2a0a0}
+.feedback{text-align:center;min-height:30px;margin:14px 0}
+.envelopes{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:650px;margin:25px auto}
+.envelope{padding:24px 15px;background:white;border:1px solid #efc7d1;border-radius:18px;cursor:pointer;box-shadow:0 7px 20px #8b536215}
+.envelope span{display:block;font-size:30px;margin-bottom:7px}
+.message{display:none;background:#fff;border-radius:20px;padding:25px;margin:16px auto;max-width:650px;box-shadow:0 10px 30px #8b536220}
+.message.show{display:block;animation:pop .4s ease}
+.audio-box{margin:25px auto;padding:28px;background:white;border-radius:24px;max-width:550px}
+.cake{font-size:100px;cursor:pointer;user-select:none;transition:.2s}.cake:hover{transform:scale(1.05)}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.piece{position:absolute;width:9px;height:16px;animation:fall 2.5s linear forwards}
+.final{font-size:clamp(24px,5vw,42px);line-height:1.35}
+.small{font:13px Arial,sans-serif;color:#8b6c75}
+/* .nav{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:10;display:none;gap:8px;background:#ffffffdd;padding:8px;border-radius:999px;box-shadow:0 8px 25px #00000012;backdrop-filter:blur(8px)} */
+/* .nav{
+    position:fixed;
+    bottom:85px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:10;
+    display:none;
+    gap:8px;
+    background:#ffffffdd;
+    padding:8px;
+    border-radius:999px;
+    box-shadow:0 8px 25px #00000012;
+    backdrop-filter:blur(8px);
+} */
+
+.nav{
+    position:relative;
+    margin:30px auto 10px;
+    z-index:10;
+    display:none;
+    gap:8px;
+    justify-content:center;
+    width:max-content;
+    background:#ffffffdd;
+    padding:8px;
+    border-radius:999px;
+    box-shadow:0 8px 25px #00000012;
+    backdrop-filter:blur(8px);
+}
+
+@media (max-width:600px){
+    .nav{
+        bottom:75px;
+    }
+}
+.nav button{border:0;background:transparent;padding:8px 12px;border-radius:999px;color:var(--rose);cursor:pointer}
+@media(max-width:650px){.gallery{grid-template-columns:repeat(2,1fr)}.envelopes{grid-template-columns:1fr 1fr}.page{padding:30px 15px 80px}}
+@keyframes fade{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+@keyframes pulse{50%{transform:scale(1.08)}}
+@keyframes pop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     EDIT HERE — YOUR PERSONAL CONTENT
+     1. Replace the photo files in /photos with your own photos.
+     2. Change the text below.
+     3. For voice, put your recording in /audio/voice.mp3.
+     ========================================================= -->
+
+<section class="page active" id="p1">
+  <div class="card">
+    <div class="heart">❤️</div>
+    <div class="eyebrow">A little birthday surprise</div>
+    <h1>Hey, birthday girl…</h1>
+    <p class="subtitle">I know you're not feeling your best right now. So I made a tiny little world for you to visit from your home in Mumbai.</p>
+    <button class="btn" onclick="go(2)">Come inside ❤️</button>
+  </div>
+</section>
+
+<section class="page" id="p2">
+  <div class="card">
+    <div class="eyebrow">Some of my favorite things</div>
+    <h2>Us, in little pieces 📸</h2>
+    <p class="subtitle">Some cute handpicked photos (with dustu misti captions) from the past one year</p>
+    <div class="gallery">
+      <div><div class="photo"><img src="photos/photo1.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=placeholder>Replace photo1.jpg</div>'"></div><div class="caption">Dujonei ki hasche dekho, biyer por bujhbe thela!</div></div>
+      <div><div class="photo"><img src="photos/photo2.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=placeholder>Replace photo2.jpg</div>'"></div><div class="caption">Dada left profile ta amar beshi bhalo, ekta tule din na</div></div>
+      <div><div class="photo"><img src="photos/photo3.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=placeholder>Replace photo3.jpg</div>'"></div><div class="caption">Tar por jano to ki holo! Se ki ar bolbo tomake!</div></div>
+      <div><div class="photo"><img src="photos/photo4.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=placeholder>Replace photo4.jpg</div>'"></div><div class="caption">Byata nishchoi chupi chupi screenshot nichhe...bhalo bhalo. Ajke bhalo kore seje guje boshechi. Phew.</div></div>
+      <div><div class="photo"><img src="photos/photo5.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=placeholder>Replace photo5.jpg</div>'"></div><div class="caption">Bhalomanush bhab kore dujone boshe achhe dekho kemon</div></div>
+      <div><div class="photo"><img src="photos/photo6.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=placeholder>Replace photo6.jpg</div>'"></div><div class="caption">Sarir anchol ar goynar dokaner advertisement to puro. Agun agun ouff!</div></div>
+      <div><div class="photo"><img src="photos/photo7.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=placeholder>Replace photo6.jpg</div>'"></div><div class="caption">Mesho bolechhe hat dhore hanto...chobi tulbo. Ki ar korbe...bechara (╥﹏╥)</div></div>
+      <div><div class="photo"><img src="photos/photo8.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=placeholder>Replace photo6.jpg</div>'"></div><div class="caption">"Heroine eschhe...heroine. Taratari shot ne re keu..."</div></div>
+      <div><div class="photo"><img src="photos/photo9.jpg" onerror="this.style.display='none';this.parentElement.innerHTML='<div class=placeholder>Replace photo6.jpg</div>'"></div><div class="caption">Cutoo! Sari te dhaka pore gechhe...lol</div></div>
+    </div>
+    <button class="btn" onclick="go(3)">Okay, one little game →</button>
+  </div>
+</section>
+
+<section class="page" id="p3">
+  <div class="card">
+    <div class="eyebrow">A tiny challenge</div>
+    <h2>How well do you know us? 🎮</h2>
+    <div class="quiz">
+      <div class="question" id="q"></div>
+      <div class="answers" id="answers"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+    <button class="btn" id="nextQ" style="display:none" onclick="nextQuestion()">Next →</button>
+  </div>
+</section>
+
+<section class="page" id="p4">
+  <div class="card">
+    <div class="eyebrow">For different kinds of days</div>
+    <h2>Open when… 💌</h2>
+    <p class="subtitle">Tap one. I wrote these for the moments when I can't physically be there.</p>
+    <div class="envelopes">
+      <div class="envelope" onclick="openMsg('m1')"><span>🫂</span>You miss me</div>
+      <div class="envelope" onclick="openMsg('m2')"><span>😂</span>You need a smile</div>
+      <div class="envelope" onclick="openMsg('m3')"><span>🤒</span>You're feeling sick</div>
+      <div class="envelope" onclick="openMsg('m4')"><span>❤️</span>You're feeling romantic</div>
+    </div>
+    <div class="message" id="m1">CALL ME ANY TIME. ANWAY DON'T WORRY. THE WAIT IS ALMOST OVER - JUST A FEW MORE MONTHS.</div>
+    <div class="message" id="m2">ARE YOUR PARENTS TERRORISTS?...BECAUSE YOU ARE A BOMB.</div>
+    <div class="message" id="m3">YOU'LL GET WELL SOON. VICKS KI GOLI LO...</div>
+    <div class="message" id="m4">LIST DOWN THE EXPECTATION. AND GIVE ME THE LIST LATER. IT'LL BE LIKE A USER-MANUAL.</div>
+    <button class="btn" onclick="go(5)">One more thing…</button>
+  </div>
+</section>
+
+<section class="page" id="p5">
+  <div class="card">
+    <div class="eyebrow">From me, to you</div>
+    <h2>Press play 🎙️</h2>
+    <!-- <p class="subtitle">Put your own recording at <b>audio/voice.mp3</b>. If you don't want to add audio, just leave it out.</p> -->
+    <div class="audio-box">
+      <div style="font-size:45px">🎧</div>
+      <audio controls style="width:100%;margin-top:18px">
+        <source src="audio/voice.mp3" type="audio/mpeg">
+      </audio>
+      <!-- <p class="small">Tip: a 60–90 second voice note is perfect.</p> -->
+    </div>
+    <button class="btn" onclick="go(6)">And finally… 🎂</button>
+  </div>
+</section>
+
+<section class="page" id="p6">
+  <div class="card">
+    <div class="eyebrow">Your birthday wish</div>
+    <h2>Make a wish 🎂</h2>
+    <p class="subtitle">Tap the cake.</p>
+    <div class="cake" onclick="celebrate()">🎂</div>
+    <p id="wish" class="final" style="display:none">
+      MAY YOU FIND PEACE AND HAPPINESS. I AM 100% SURE YOUR WISH WILL BE FULFILLED - BECAUSE U ARE A GOOD PERSON.<br><br>
+      <span style="font-size:.65em">Happy birthday, Antara. ❤️</span>
+    </p>
+    <div id="finalButton" style="display:none;margin-top:20px">
+      <button class="btn" onclick="go(7)">One last thing…</button>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="p7">
+  <div class="card">
+    <div class="heart">❤️</div>
+    <div class="eyebrow">That's all</div>
+    <h2>Until I can be there in person…</h2>
+    <p class="final">BE HAPPY. ENJOY YOUR LIFE. STAY HEALTHY.</p>
+    <p>Take care of yourself. Rest. Get better. And save me a hug. 🫂</p>
+    <p class="small">Made with love, just for you.</p>
+  </div>
+</section>
+
+<div class="nav" id="nav">
+  <button onclick="go(Math.max(1,current-1))">←</button>
+  <button onclick="go(Math.min(7,current+1))">→</button>
+</div>
+<div class="confetti" id="confetti"></div>
+
+<script>
+let current=1;
+function go(n){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+  current=n;
+  document.getElementById('nav').style.display=n>1?'flex':'none';
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===3) renderQuestion();
+}
+const questions=[
+  {q:"What kind of a couple would we be?",a:["Couple who fight all the time","The overall bestest couple in the history of mankind with little ups and downs","Couple who don't care about each other","Couple who sulk but don't express their feelings"],c:1},
+  {q:"How many kids are we having?",a:["5","10","15","20"],c:2},
+  {q:"What will we do after we wake up every morning?",a:["Go to sleep again","Go to do daily majdoori","Running","Throw each other off from the bed"],c:0},
+  {q:"What will we have when the cook does not come?",a:["McDonald's","Mandi","Each other","Bhad-dal, muri ar bhindi"],c:2},
+  {q:"What should we do when the other person get angry?",a:["Argue","Offer a five-star","Tickle","Leave the house"],c:1}
+];
+let qi=0,score=0,answered=false;
+function renderQuestion(){
+  answered=false;
+  const x=questions[qi];
+  document.getElementById('q').textContent=x.q;
+  document.getElementById('feedback').textContent='';
+  const box=document.getElementById('answers');box.innerHTML='';
+  x.a.forEach((a,i)=>{
+    const b=document.createElement('button');b.className='answer';b.textContent=a;
+    b.onclick=()=>answer(i,b);box.appendChild(b);
+  });
+  document.getElementById('nextQ').style.display='none';
+}
+function answer(i,b){
+  if(answered)return; answered=true;
+  const x=questions[qi];
+  document.querySelectorAll('.answer').forEach((z,j)=>{if(j===x.c)z.classList.add('correct')});
+  if(i===x.c){score++;document.getElementById('feedback').textContent='Correct! Obviously you know us. ❤️';}
+  else {b.classList.add('wrong');document.getElementById('feedback').textContent='Hmm… I am filing a complaint. 😌';}
+  document.getElementById('nextQ').style.display='inline-block';
+}
+function nextQuestion(){
+  qi++;
+  if(qi<questions.length)renderQuestion();
+  else{
+    document.getElementById('q').textContent=`You got ${score}/${questions.length} ❤️`;
+    document.getElementById('answers').innerHTML='<p style="text-align:center">Okay, you pass. You may continue being my favorite person.</p>';
+    document.getElementById('feedback').textContent='';
+    document.getElementById('nextQ').textContent='Continue →';
+    document.getElementById('nextQ').onclick=()=>go(4);
+  }
+}
+function openMsg(id){
+  document.querySelectorAll('.message').forEach(x=>x.classList.remove('show'));
+  document.getElementById(id).classList.add('show');
+}
+function celebrate(){
+  document.getElementById('wish').style.display='block';
+  document.getElementById('finalButton').style.display='block';
+  const box=document.getElementById('confetti');box.innerHTML='';
+  for(let i=0;i<90;i++){
+    const p=document.createElement('div');p.className='piece';
+    p.style.left=Math.random()*100+'%';
+    p.style.top='-20px';
+    p.style.animationDelay=Math.random()*.8+'s';
+    p.style.transform=`rotate(${Math.random()*360}deg)`;
+    p.textContent=['❤️','✨','🌸','💕'][Math.floor(Math.random()*4)];
+    p.style.fontSize=(10+Math.random()*14)+'px';
+    box.appendChild(p);
+  }
+  setTimeout(()=>box.innerHTML='',3500);
+}
+</script>
+</body>
+</html>
