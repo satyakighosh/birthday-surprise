@@ -242,13 +242,20 @@ p{font-size:19px;line-height:1.7}
 </section>
 
 <div class="nav" id="nav">
-  <button onclick="go(Math.max(1,current-1))">←</button>
-  <button onclick="go(Math.min(7,current+1))">→</button>
+  <button id="prevBtn" onclick="go(Math.max(1,current-1))">←</button>
+  <button id="nextBtn" onclick="go(Math.min(7,current+1))">→</button>
 </div>
 <div class="confetti" id="confetti"></div>
 
 <script>
 let current=1;
+function updateNav() {
+    document.getElementById("prevBtn").style.display =
+        current === 1 ? "none" : "inline-block";
+
+    document.getElementById("nextBtn").style.display =
+        current === 7 ? "none" : "inline-block";
+}
 function go(n){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
   document.getElementById('p'+n).classList.add('active');
@@ -256,6 +263,7 @@ function go(n){
   document.getElementById('nav').style.display=n>1?'flex':'none';
   window.scrollTo({top:0,behavior:'smooth'});
   if(n===3) renderQuestion();
+  updateNav();
 }
 const questions=[
   {q:"What kind of a couple would we be?",a:["Couple who fight all the time","The overall bestest couple in the history of mankind with little ups and downs","Couple who don't care about each other","Couple who sulk but don't express their feelings"],c:1},
